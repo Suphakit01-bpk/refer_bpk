@@ -1,0 +1,2 @@
+[2025-02-06|07:56:29] INFO: Login attempt | username :  asdf 
+[2025-02-06|07:56:29] ERROR: User not found | username :  asdf  error_type : USER_NOT_FOUND
