@@ -2,19 +2,33 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { query, db_connect } from '@/lib/db_connect';
 import { logger } from '@/utils/logger';
+import { headers } from 'next/headers';
 
 export async function POST(req: Request) {
+  const headersList = await headers(); // Add await here
+  const userAgent = headersList.get('user-agent') || 'Unknown';
+  const ip = headersList.get('x-forwarded-for') || 
+             headersList.get('x-real-ip') || 
+             'Unknown';
   let userData: any;
 
   try {
     userData = await req.json();
     
-    logger.info('Register', { username: userData.username });
+    logger.info('Register attempt', { 
+      username: userData.username,
+      ip_address: ip,
+      user_agent: userAgent
+    });
 
     // ตรวจสอบการเชื่อมต่อ
     const isConnected = await db_connect();
     if (!isConnected) {
-      logger.error('Database connection failed', { username: userData.username });
+      logger.error('Database connection failed', {
+        username: userData.username,
+        ip_address: ip,
+        status_code: 503
+      });
       throw new Error('ไม่สามารถเชื่อมต่อกับฐานข้อมูลได้');
     }
 
@@ -61,7 +75,12 @@ export async function POST(req: Request) {
     );
 
     if (result && result.rowCount === 1) {
-      logger.action('Register successful', `${userData.username}(${userData.role})`);
+      logger.action('Register successful', userData.username, {
+        ip_address: ip,
+        status_code: 200,
+        user_agent: userAgent,
+        role: userData.role
+      });
 
       return NextResponse.json({ 
         success: true, 
@@ -73,14 +92,15 @@ export async function POST(req: Request) {
     throw new Error('ไม่สามารถบันทึกข้อมูลผู้ใช้ได้');
 
   } catch (error: any) {
-    logger.error('การลงทะเบียนล้มเหลว', {
+    logger.error('Registration failed', {
       error: error.message,
-      code: error.code,
-      timestamp: new Date().toISOString(),
-      details: userData ? {  // เช็คว่ามี userData ก่อนใช้
+      ip_address: ip,
+      status_code: error.code ? 400 : 500,
+      user_agent: userAgent,
+      details: userData ? {
         username: userData.username,
         hospital: userData.hospital_at
-      } : 'No user data available'
+      } : 'No user data'
     });
 
     let errorMessage = 'เกิดข้อผิดพลาดในการลงทะเบียน';

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 // แก้ไขเส้นทางการ import ให้ถูกต้อง
 import Card from '@/components/Card';
+import Loader from '@/components/Loader';
+import HeartRateLoader from '@/components/HeartRateLoader';
 
 // Update SweetAlert2 styles with pastel theme
 const Toast = Swal.mixin({
@@ -77,6 +79,7 @@ export default function LoginPage() {
 
   return (
     <PageContainer>
+      {/* {loading && <HeartRateLoader />} */}
       <LoginContainerStyled>
         <Card
           mode="signin"

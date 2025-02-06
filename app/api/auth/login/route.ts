@@ -2,17 +2,32 @@ import { query, db_connect } from '@/lib/db_connect';
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { logger } from '@/utils/logger';
+import { headers } from 'next/headers';
 
 export async function POST(request: Request) {
+  const headersList = await headers(); // Add await here
+  const userAgent = headersList.get('user-agent') || 'Unknown';
+  const ip = headersList.get('x-forwarded-for') || 
+             headersList.get('x-real-ip') || 
+             'Unknown';
+
   try {
     const { username, password } = await request.json();
     
-    logger.info('Login attempt', { username });
+    logger.info('Login attempt', { 
+      username,
+      ip_address: ip,
+      user_agent: userAgent
+    });
 
     // ตรวจสอบการเชื่อมต่อก่อนดำเนินการ
     const isConnected = await db_connect();
     if (!isConnected) {
-      logger.error('Database connection failed', { username });
+      logger.error('Database connection failed', { 
+        username,
+        ip_address: ip,
+        status_code: 503
+      });
       return NextResponse.json(
         { error: 'ขออภัย ระบบไม่สามารถเชื่อมต่อฐานข้อมูลได้ในขณะนี้ กรุณาลองใหม่ภายหลัง' },
         { status: 503 }
@@ -27,6 +42,8 @@ export async function POST(request: Request) {
     if (!result || result.rows.length === 0) {
       logger.error('User not found', {
         username,
+        ip_address: ip,
+        status_code: 401,
         error_type: 'USER_NOT_FOUND'
       });
       return NextResponse.json(
@@ -44,6 +61,8 @@ export async function POST(request: Request) {
     if (!passwordMatch) {
       logger.error('Invalid password', {
         username,
+        ip_address: ip,
+        status_code: 401,
         error_type: 'INVALID_PASSWORD'
       });
       return NextResponse.json(
@@ -64,8 +83,12 @@ export async function POST(request: Request) {
     // Remove password from response
     const { password: _, ...userWithoutPassword } = user;
 
-    // Log successful login
-    logger.action('Login successful', `${username} (${user.role})`);
+    // Log successful login with status and IP
+    logger.action('Login successful', username, {
+      ip_address: ip,
+      status_code: 200,
+      user_agent: userAgent
+    });
 
     return NextResponse.json({
       user: userWithoutPassword,
@@ -74,8 +97,9 @@ export async function POST(request: Request) {
   } catch (error: any) {
     logger.error('Unknown error during login', {
       error: error.message,
-      stack: error.stack,
-      error_type: 'UNKNOWN_ERROR'
+      ip_address: ip,
+      status_code: 500,
+      user_agent: userAgent
     });
     return NextResponse.json(
       { 

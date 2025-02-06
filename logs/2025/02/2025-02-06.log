@@ -1,2 +1,52 @@
 [2025-02-06|07:56:29] INFO: Login attempt | username :  asdf 
 [2025-02-06|07:56:29] ERROR: User not found | username :  asdf  error_type : USER_NOT_FOUND
+[2025-02-06|09:01:53] INFO: Login attempt | username :  asdf 
+[2025-02-06|09:01:53] ERROR: User not found | username :  asdf  error_type : USER_NOT_FOUND
+[2025-02-06|09:05:01] INFO: Login attempt | username : 96706824
+[2025-02-06|09:05:01] ERROR: Invalid password | username : 96706824 error_type : INVALID_PASSWORD
+[2025-02-06|09:23:17] INFO: Login attempt | ip: ::ffff:172.29.10.168 | ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0 | username: 96706824
+[2025-02-06|09:23:17] ERROR: Invalid password | ip: ::ffff:172.29.10.168 | ua: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0 | status: 401 | time: 486ms | username: 96706824 | error_type: INVALID_PASSWORD
+[2025-02-06|09:24:37] INFO: Login attempt | username : 96706824
+[2025-02-06|09:24:38] ERROR: Invalid password | username : 96706824 error_type : INVALID_PASSWORD
+[2025-02-06|09:42:59] INFO: Login attempt | username : 96706824 | ip : ::ffff:172.29.10.168 | agent : Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 Edg/132.0.0.0
+[2025-02-06|09:43:00] ERROR: Invalid password | username : 96706824 | ip : ::ffff:172.29.10.168 | status : 401 | error_type : INVALID_PASSWORD
+[2025-02-06|09:46:20] INFO: Login attempt | username : 96706824 | ip : ::ffff:172.29.10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:46:20] ERROR: Invalid password | username : 96706824 | ip : ::ffff:172.29.10.168 | status : 401 | error_type : INVALID_PASSWORD
+[2025-02-06|09:47:53] INFO: Login attempt | username : 96706824 | ip : ::ffff:172.29.10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:47:54] ERROR: Invalid password | username : 96706824 | ip : ::ffff:172.29.10.168 | status : 401 | error_type : INVALID_PASSWORD
+[2025-02-06|09:50:53] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:50:53] ERROR: Invalid password | username : 96706824 | ip : 172. 29. 10.168 | status : 401 | error_type : INVALID_PASSWORD
+[2025-02-06|09:51:13] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:51:13] ACTION: Login successful | username : 96706824
+[2025-02-06|09:54:32] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:54:32] ACTION: Login successful | username : 96706824
+[2025-02-06|09:58:43] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | browser : AppleWebKit/537.36
+[2025-02-06|09:58:43] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200 | browser : AppleWebKit/537.36
+[2025-02-06|10:02:57] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Chrome
+[2025-02-06|10:02:57] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:05:32] INFO: Login attempt | username : หกด | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:05:33] ERROR: User not found | username : หกด | ip : 172. 29. 10.168 | status : 401 | error_type : USER_NOT_FOUND
+[2025-02-06|10:06:46] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:06:46] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:07:54] INFO: Login attempt | username : 50+0 | ip : 172. 29. 10.168 | from : Chrome
+[2025-02-06|10:07:54] ERROR: User not found | username : 50+0 | ip : 172. 29. 10.168 | status : 401 | error_type : USER_NOT_FOUND
+[2025-02-06|10:17:11] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:17:12] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:17:31] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:17:32] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:17:59] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:18:00] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:18:19] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:18:19] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:18:49] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:18:50] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:26:57] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:26:57] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:27:29] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:27:29] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:31:28] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:31:28] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200
+[2025-02-06|10:31:55] INFO: Login attempt | username : 967068224 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:31:55] ERROR: User not found | username : 967068224 | ip : 172. 29. 10.168 | status : 401 | error_type : USER_NOT_FOUND
+[2025-02-06|10:32:00] INFO: Login attempt | username : 96706824 | ip : 172. 29. 10.168 | from : Edge
+[2025-02-06|10:32:00] ACTION: Login successful | username : 96706824 | ip : 172. 29. 10.168 | status : 200

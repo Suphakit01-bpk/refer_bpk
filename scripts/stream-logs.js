@@ -1,10 +1,22 @@
-//npm run logs:watch
+//npm run logs:watch ดูวันปัจจุบัน
+//npm run logs:watch -- 2024-02-05 กำหนดวันที่ดู
 
 const fs = require('fs');
 const path = require('path');
 
-function getTodayLogFile() {
-  const date = new Date();
+// เพิ่มฟังก์ชันสำหรับแปลงวันที่จาก parameter
+function parseDate(dateStr) {
+  if (!dateStr) return new Date();
+  
+  const match = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (match) {
+    const [_, year, month, day] = match;
+    return new Date(year, month - 1, day);
+  }
+  return new Date();
+}
+
+function getLogFile(date) {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const day = date.getDate().toString().padStart(2, '0');
@@ -17,12 +29,12 @@ function getTodayLogFile() {
     `${year}-${month}-${day}.log`
   );
 
-  // สร้างโฟลเดอร์ถ้ายังไม่มี
-  fs.mkdirSync(path.dirname(logPath), { recursive: true });
-  
-  // สร้างไฟล์ถ้ายังไม่มี
+  if (!fs.existsSync(path.dirname(logPath))) {
+    return null;
+  }
+
   if (!fs.existsSync(logPath)) {
-    fs.writeFileSync(logPath, '');
+    return null;
   }
 
   return logPath;
@@ -41,8 +53,13 @@ function colorLog(line) {
   return line;
 }
 
-async function watchLogs() {
-  const logFile = getTodayLogFile();
+async function watchLogs(targetDate) {
+  const logFile = getLogFile(targetDate);
+  if (!logFile) {
+    console.error('\x1b[31m%s\x1b[0m', `❌ ไม่พบไฟล์ log สำหรับวันที่ ${targetDate.toISOString().split('T')[0]}`);
+    return;
+  }
+
   console.clear();
   console.log('\x1b[35m%s\x1b[0m', '🔍 เริ่มการติดตาม Logs...');
   console.log('\x1b[36m%s\x1b[0m', `📁 กำลังติดตามไฟล์: ${logFile}`);
@@ -50,7 +67,6 @@ async function watchLogs() {
 
   let currentSize = 0;
 
-  // อ่านและแสดง logs ที่มีอยู่
   try {
     const content = fs.readFileSync(logFile, 'utf8');
     content.split('\n').forEach(line => {
@@ -59,6 +75,12 @@ async function watchLogs() {
     currentSize = fs.statSync(logFile).size;
   } catch (error) {
     console.error('ไม่สามารถอ่านไฟล์ log ได้:', error);
+    return;
+  }
+
+  // ถ้าเป็นวันในอดีต ไม่ต้อง watch file
+  if (targetDate.toDateString() !== new Date().toDateString()) {
+    console.log('\n\x1b[33m%s\x1b[0m', '📢 แสดงข้อมูล log ย้อนหลัง (ไม่มีการติดตามการเปลี่ยนแปลง)');
     return;
   }
 
@@ -92,13 +114,15 @@ async function watchLogs() {
 
   // ตรวจสอบการเปลี่ยนวัน
   setInterval(() => {
-    const newLogFile = getTodayLogFile();
+    const newLogFile = getLogFile(new Date());
     if (newLogFile !== logFile) {
       watcher.close();
       console.log('\n\x1b[35m%s\x1b[0m', '📅 เปลี่ยนวันใหม่ กำลังย้ายไปยังไฟล์ log ใหม่...\n');
-      watchLogs();
+      watchLogs(new Date());
     }
   }, 1000);
+  
+
 
   process.on('SIGINT', () => {
     watcher.close();
@@ -107,5 +131,11 @@ async function watchLogs() {
   });
 }
 
+
+
+// รับ parameter วันที่จาก command line
+const dateArg = process.argv[2]; // รูปแบบ YYYY-MM-DD
+const targetDate = parseDate(dateArg);
+
 // เริ่มการทำงาน
-watchLogs().catch(console.error);
+watchLogs(targetDate).catch(console.error);
